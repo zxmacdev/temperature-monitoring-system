@@ -1,8 +1,12 @@
 import { spawn } from "node:child_process";
-import { ALERT_THRESHOLD, alerts, sensors } from "./data";
+import { SensorReading } from "./sensor.dto";
+
+export const sensors = new Map<number, SensorReading>();
+export const alerts: Array<{ message: string; timestamp: Date }> = [];
+const ALERT_THRESHOLD = 35; // Alert if temp exceeds 35°C
 
 // Parse binary message
-function parseMessage(buffer: Buffer): { type: number; sensorId: number; temperature: number } | null {
+export function parseMessage(buffer: Buffer): { type: number; sensorId: number; temperature: number } | null {
   if (buffer.length < 2) return null;
 
   const byte1 = buffer[0];
@@ -24,7 +28,7 @@ function parseMessage(buffer: Buffer): { type: number; sensorId: number; tempera
 }
 
 // Process sensor data
-function processSensorData(sensorId: number, temperature: number) {
+export function processSensorData(sensorId: number, temperature: number) {
   const existing = sensors.get(sensorId);
   
   if (existing) {
@@ -56,7 +60,7 @@ function processSensorData(sensorId: number, temperature: number) {
 }
 
 // Start measure_temp process
-function startMeasurementProcess() {
+export function startMeasurementProcess() {
   try {
     const measureTempProcess = spawn('measure_temp');
     
@@ -101,7 +105,7 @@ function startMeasurementProcess() {
 }
 
 // Mock data generator for testing
-function startMockDataGenerator() {
+export function startMockDataGenerator() {
   console.log('Starting mock data generator...');
   
   setInterval(() => {
@@ -114,5 +118,3 @@ function startMockDataGenerator() {
     processSensorData(sensorId, Math.max(0, Math.min(255, temperature)));
   }, 2000);
 }
-
-export { parseMessage, processSensorData, startMeasurementProcess, startMockDataGenerator };

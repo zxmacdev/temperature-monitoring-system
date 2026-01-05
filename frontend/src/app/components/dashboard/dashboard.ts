@@ -82,7 +82,7 @@ export class Dashboard implements OnInit, OnDestroy {
     // Poll for alerts every 5 seconds
     interval(5000)
       .pipe(
-        switchMap(() => this.http.get<Alert[]>(`${this.API_BASE}/api/alerts`).pipe(
+        switchMap(() => this.http.get<Alert[]>(`${this.API_BASE}/api/sensors/alerts`).pipe(
           catchError(err => {
             console.error('Failed to fetch alerts:', err);
             return of([]);

@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
-import { parseMessage } from './server';
+import { describe, it, expect } from '@jest/globals';
+import { parseMessage } from './sensor.service';
 
 describe('Temperature Monitor - Message Parsing', () => {
   describe('parseMessage', () => {
