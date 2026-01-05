@@ -1,0 +1,60 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  @if (sensorList().length === 0) {
+    <div class="col-span-full text-center py-12 text-slate-500">
+      <svg class="mx-auto mb-4 opacity-50" width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+      </svg>
+      <p>No sensor data available. Waiting for measurements...</p>
+    </div>
+  } @else {
+    @for (sensor of sensorList(); track sensor.id) {
+      <div
+        [class]="getSensorCardClass(sensor.data.temperature)"
+        (click)="selectSensor(sensor.id)"
+      >
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h3 class="font-semibold text-slate-800 text-lg">
+              Sensor #{{ sensor.id }}
+            </h3>
+            <p class="text-xs text-slate-500">
+              Last update: {{ formatTime(sensor.data.lastUpdate) }}
+            </p>
+          </div>
+          <svg 
+            [class]="'w-6 h-6 ' + getStatusColor(sensor.data.temperature)"
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+        
+        <div class="mb-3">
+          <div class="flex items-baseline gap-2">
+            <span [class]="'text-4xl font-bold ' + getStatusColor(sensor.data.temperature)">
+              {{ sensor.data.temperature }}
+            </span>
+            <span class="text-xl text-slate-600">°C</span>
+          </div>
+        </div>
+
+        <div class="space-y-1 text-sm">
+          <div class="flex justify-between text-slate-600">
+            <span>Min:</span>
+            <span class="font-medium">{{ sensor.data.min }}°C</span>
+          </div>
+          <div class="flex justify-between text-slate-600">
+            <span>Max:</span>
+            <span class="font-medium">{{ sensor.data.max }}°C</span>
+          </div>
+          <div class="flex justify-between text-slate-600">
+            <span>Readings:</span>
+            <span class="font-medium">{{ sensor.data.count }}</span>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

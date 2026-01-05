@@ -1,0 +1,28 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+  <div class="max-w-7xl mx-auto p-6">
+    <!-- Header -->
+    <app-dashboard-header 
+      [isConnected]="sensorStore.isConnected" />
+
+    <!-- Alerts Section -->
+    @if (sensorStore.alerts().length > 0) {
+      <app-alerts [alerts]="sensorStore.alerts" />
+    }
+
+    <!-- Stats Overview -->
+    <app-stats-overview 
+      [sensorList]="sensorStore.sensorList"
+      [avgTemperature]="sensorStore.avgTemperature"
+      [criticalCount]="sensorStore.criticalCount" />
+
+    <!-- Sensor Grid -->
+    <app-sensor-grid 
+      [sensorList]="sensorStore.sensorList"
+      [selectSensor]="selectSensor"
+      [getStatusColor]="getStatusColor"
+      [getStatusBg]="getStatusBg"
+      [getSensorCardClass]="getSensorCardClass"
+      [formatTime]="formatTime" />
+
+  </div>
+</div>
