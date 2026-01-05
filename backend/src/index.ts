@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { sensors, alerts, SensorReading } from './server/data';
-import { startMeasurementProcess } from './server/server';
+import { startMockDataGenerator } from './server/server';
 
 const app = express();
 const PORT = 3000;
@@ -59,7 +59,7 @@ app.get('/api/stats', (req, res) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
-  // startMeasurementProcess();
+  startMockDataGenerator();
 });
 
 export default app;

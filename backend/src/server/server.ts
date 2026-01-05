@@ -115,4 +115,4 @@ function startMockDataGenerator() {
   }, 2000);
 }
 
-export { parseMessage, processSensorData, startMeasurementProcess };
+export { parseMessage, processSensorData, startMeasurementProcess, startMockDataGenerator };
